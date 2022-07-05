@@ -13,10 +13,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({ 
   selector: 'product.component',
-  templateUrl: 'product.component.html' })
+  templateUrl: 'product.component.html' 
+})
 
 
 export class ProductComponent implements OnInit{
+  search : String ="";
 
   productName:  any;
   productType: any;
@@ -111,6 +113,12 @@ DeleteData() {
       }  
   
 } 
+
+
+pdf(){
+
+
+}
  
   ngAfterViewInit() {}
 
@@ -132,6 +140,4 @@ DeleteData() {
 function result(result: any) {
   throw new Error('Function not implemented.');
 }
-
-
 

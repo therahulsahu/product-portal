@@ -1,111 +1,130 @@
-@import "~@ng-select/ng-select/themes/default.theme.css";
+import { Component, ElementRef, OnInit, ViewChild , Input } from '@angular/core';
+import { ProductService } from '../product.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray} from '@angular/forms';
+import { IDropdownSettings, } from 'ng-multiselect-dropdown';
 
 
-.btn{
-    text-align: center;
-   margin: 70px auto 0;
-   font-family: Book Antiqua;
+
+// import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+
+
+interface Price {
+  value: string;
+  viewValue: string;
+}
+
+@Component({ 
+    selector: 'add',
+    templateUrl: './add.component.html' ,
+    styleUrls: ['./add.component.css']
+
+})
+export class AddComponent implements OnInit{
+  toppings: FormGroup;
+  // checked = false;
+  // indeterminate = false;
+  // labelPosition: 'before' | 'after' = 'after';
+  // disabled = false;
+  title = 'angular-key-press-example';
+  // Only Integer Numbers
+  keyPressNumbers(event: any) {
+    var charCode = (event.which) ? event.which : event.keyCode;
+    // Only Numbers 0-9
+    if ((charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    } else {
+      return true;
     }
-
-.btn a{
-    width: 150px;
-    text-decoration: none;
-    display: inline-block;
-    margin: 0 10px;
-    padding: 12px 0;
-    border: .5px solid black;
-    position: relative;
-
-}
-.btn a span{
-    width: 0;
-    height: 100%;
-    position:absolute;
-    top: 0;
-    left: 0;
-
-}
-.form{
-    text-align: center;
-}
-
-.form input[type="text"]{
-    border: none;
-    border-bottom: 1px solid black;
-    outline: none;
-    height: 40px;
-    font-size: 16px;
-}
-
-.form label{
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
-    text-align: left;
-}
-mat-sidenav {
-    margin: 16px;
-    width: 200px;
-    border-right: none;
-    background: #006994;
-    color: white;
-    border-radius: 10px;
-    padding: 16px;
-    text-align: center;
-}
-
-.content {
-    height: calc(100vh - 98px);
-    border-radius: 10px;
-    margin: 16px;
-    margin-left: 32px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 2rem;
-    color: lightgray;
-}
-
-mat-sidenav-container {
-    height: calc(100vh - 65px);
-}
-
-.menu-button {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: 1rem;
-
-    
-}
-mat-icon {
-    margin-right: 8px;
-}
-ng-select{
-    width: 100%;
-    padding: 7px 20px;
-    margin: 8px 0;
-   
-    background-color: white;
-    border-radius: 2px;
-    box-sizing: border-box;
-    color: #000;
-}
-
-
-.mat-radio-button ~ .mat-radio-button {
-    margin-left: 16px;
   }
-  .example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
+
+  
+
+  //Multiple select
+  prod = new FormControl('');
+  prodList: string[] = ['New mobile', 'New product', 'Amazing features', 'New version', 'New Themes', 'Color'];
+
+
+
+
+//quantity
+  inputnumber = 0;
+  
+  plus()
+  {
+   this.inputnumber = this.inputnumber+1;
+  }
+  minus()
+  {
+    if(this.inputnumber != 0)
+  {
+   this.inputnumber = this.inputnumber-1;
   }
   
-  .example-full-width {
-    width: 100%;
   }
+
  
+
+
+////
+    productId: any;
+    productName:  any;
+    productDesc: any;
+    productPrice: any;
+    productQuantity: any;
+    productType: any;
+    Productmul: any;
+    upload: any;
+    check: any;
+    checkbox: any;
+    
+ 
+    
+
+  constructor(
+      private productService : ProductService,
+      private router: Router,
+      fb: FormBuilder
+      ) {
+        this.toppings = fb.group({
+          pepperoni: false,
+          extracheese: false,
+          mushroom: false,
+        });
+    }
+   
+ 
+
+  ngOnInit(): void {
+    
+  }
+  // createNewProduct
+  createProduct(){
+    let newProduct = [{
+      productId: this.productId,
+      productName: this.productName,
+      productDesc: this.productDesc,
+      productPrice: this.productPrice,
+      productQuantity: this.productQuantity,
+      productType: this.productType,
+      // upload: this.upload,
+      // toppings: this.toppings,
+      // check: this.check
+    }]
+   
+   
+    this.productService.save(newProduct).subscribe(data => {
+      console.log("success");
+    });
+    this.router.navigate(['/product']); 
+    
+  }
+  selected = '';
+  price: Price[] = [
+    {value: '15000-20000', viewValue: '15000-20000'},
+    {value: '20000-30000', viewValue: '20000-30000'},
+    {value: '30000-50000', viewValue: '30000-50000'},
+  ];
+  
+}

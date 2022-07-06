@@ -1,7 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild , Input } from '@angular/core';
 import { ProductService } from '../product.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray} from '@angular/forms';
+import { IDropdownSettings, } from 'ng-multiselect-dropdown';
+
 
 
 // import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
@@ -37,17 +39,35 @@ export class AddComponent implements OnInit{
     }
   }
 
+  
 
-  cars = [
-    { id: 1, name: "new mobile" },
-    { id: 2, name: "New product" },
-    { id: 3, name: "Amazing features" },
-    { id: 4, name: "new version" },
-    { id: 5, name: "New themes" },
-  ];
-  select = [{ id: 3, name: "Amazing features" }];
+  //Multiple select
+  prod = new FormControl('');
+  prodList: string[] = ['New mobile', 'New product', 'Amazing features', 'New version', 'New Themes', 'Color'];
 
 
+
+
+//quantity
+  inputnumber = 0;
+  
+  plus()
+  {
+   this.inputnumber = this.inputnumber+1;
+  }
+  minus()
+  {
+    if(this.inputnumber != 0)
+  {
+   this.inputnumber = this.inputnumber-1;
+  }
+  
+  }
+
+ 
+
+
+////
     productId: any;
     productName:  any;
     productDesc: any;
@@ -58,6 +78,7 @@ export class AddComponent implements OnInit{
     upload: any;
     check: any;
     checkbox: any;
+    
  
     
 
@@ -76,6 +97,7 @@ export class AddComponent implements OnInit{
  
 
   ngOnInit(): void {
+    
   }
   // createNewProduct
   createProduct(){
@@ -106,14 +128,3 @@ export class AddComponent implements OnInit{
   ];
   
 }
-
-
-
-
-
-
-
-
-
-  
-
